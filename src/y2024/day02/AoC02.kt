@@ -76,25 +76,25 @@ private object AOC2: Day<Int, Int>(2, 4, 549, 589, true) {
 	}
 
 	init {
-		part1Lines { lines ->
+		part1Lines("isSafe") { lines ->
 			lines
 				.map { it.split(" ").map(String::toInt) }
 				.count { it.isSafe() }
 		}
 
-		part1Lines { lines ->
+		part1Lines("isSafeZip") { lines ->
 			lines
 				.map { it.split(" ").map(String::toInt) }
 				.count { it.isSafeZip() }
 		}
 
-		part2Lines { lines ->
+		part2Lines("filterIndexed") { lines ->
 			lines
 				.map { it.split(" ").map(String::toInt) }
 				.count { it.isSafeIsh() }
 		}
 
-		part2Lines { lines ->
+		part2Lines("with Wrapper") { lines ->
 			lines
 				.map { it.split(" ").map(String::toInt) }
 				.count { it.isSafeIsh2() }
