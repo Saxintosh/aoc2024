@@ -8,12 +8,9 @@ fun main() {
 	AOC1
 }
 
-private object AOC1: Day<Int, Int>(11, 31, 1938424, 22014209) {
+private object AOC1: Day<Int, Int>(11, 31, 1938424, 22014209, true) {
 
 	init {
-
-		benchmark = true
-
 		part1Lines { lines ->
 			val pairs = lines.map { it.split("   ").map(String::toInt) }
 			val l1 = pairs.map { it[0] }.sorted()
