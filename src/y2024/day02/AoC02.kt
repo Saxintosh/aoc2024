@@ -1,13 +1,15 @@
 package y2024.day02
 
 import Day
-import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 
 fun main() {
 	AOC2
 }
 
+// I thought that creating a wrapper that reused the source list would be faster. But no.
+// It is becoming more and more evident that creating many objects is not an expensive operation at all.
 class ExcludingIndexList(private val list: List<Int>, var excludedIndex: Int = 0): List<Int> {
 	init {
 		require(excludedIndex in list.indices) { "Index $excludedIndex is out of bounds for list of size ${list.size}" }
@@ -27,7 +29,7 @@ class ExcludingIndexList(private val list: List<Int>, var excludedIndex: Int = 0
 		}
 
 		override fun next(): Int {
-//			if (!hasNext()) throw NoSuchElementException()
+			if (!hasNext()) throw NoSuchElementException()
 			return list[adjustedIndex(currentIndex++)]
 		}
 	}
@@ -48,7 +50,15 @@ private object AOC2: Day<Int, Int>(2, 4, 549, 589, true) {
 	private fun List<Int>.isSafe(): Boolean {
 		val firstTest = get(0) > get(1)
 		return windowed(2, 1).all { (a, b) ->
-			a != b && (a > b == firstTest) && abs(a - b) <= 3
+			a != b && (a > b == firstTest) && (a - b).absoluteValue <= 3
+		}
+	}
+
+	// it seems that zipWithNext is a little faster than windowed
+	private fun List<Int>.isSafeZip(): Boolean {
+		val firstTest = get(0) > get(1)
+		return zipWithNext().all{ (a, b) ->
+			a != b && (a > b == firstTest) && (a - b).absoluteValue <= 3
 		}
 	}
 
@@ -72,6 +82,11 @@ private object AOC2: Day<Int, Int>(2, 4, 549, 589, true) {
 				.count { it.isSafe() }
 		}
 
+		part1Lines { lines ->
+			lines
+				.map { it.split(" ").map(String::toInt) }
+				.count { it.isSafeZip() }
+		}
 
 		part2Lines { lines ->
 			lines
@@ -79,7 +94,6 @@ private object AOC2: Day<Int, Int>(2, 4, 549, 589, true) {
 				.count { it.isSafeIsh() }
 		}
 
-		// With the wrapping class, it is slower!!!
 		part2Lines { lines ->
 			lines
 				.map { it.split(" ").map(String::toInt) }
