@@ -20,7 +20,7 @@ private object AOC2: Day<Int, Int>(2, 4, 549, 22014209) {
 	private fun List<Int>.isSafeIsh(): Boolean {
 		if (isSafe()) return true
 
-		return indices.any { pos -> this.filterIndexed { index, i -> index != pos }.isSafe() }
+		return indices.any { pos -> this.filterIndexed { index, _ -> index != pos }.isSafe() }
 	}
 
 	init {
