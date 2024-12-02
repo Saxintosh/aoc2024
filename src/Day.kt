@@ -15,6 +15,8 @@ open class Day<T1, T2>(
 ) {
 	private val srcPath: String
 
+	var benchmark = false
+
 	init {
 		val e = Exception()
 		val s = e.stackTrace.first { it.className.startsWith("y") }
@@ -45,8 +47,19 @@ open class Day<T1, T2>(
 			}
 		}
 		val lines2 = fInput.reader()
-		val res2 = measureTimedValue { block(lines2) }
-		println("     Part ${part + 1} = ${res2.value} in ${res2.duration}")
+		var res2 = measureTimedValue { block(lines2) }
+		var scale = 1
+		if (benchmark)
+			res2 = measureTimedValue {
+				scale = 5
+				block(lines2)
+				block(lines2)
+				block(lines2)
+				block(lines2)
+				block(lines2)
+			}
+
+		println("     Part ${part + 1} = ${res2.value} in ${res2.duration.div(scale)}")
 		properResults[part]?.let {
 			if(it != res2.value) {
 				println("              ERROR: ${it} expected!")
