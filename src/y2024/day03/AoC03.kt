@@ -23,6 +23,7 @@ private object AOC3: Day<Int, Int>(161, 48, 178794710, 76729637, true) {
 				}
 		}
 
+
 		part1Text("with Wrapper") { txt ->
 			var guard = true
 			regex2.findAll(txt).fold(0) { acc: Int, match: MatchResult ->
