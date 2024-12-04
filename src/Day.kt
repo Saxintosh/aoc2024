@@ -16,6 +16,9 @@ open class Day<T1, T2>(
 	var benchmarkRepetition: Int = 1
 	private val srcPath: String
 
+	private val openRed = "\u001B[31m"
+	private val closeRed = "\u001B[0m"
+
 	init {
 		val e = Exception()
 		val s = e.stackTrace.first { it.className.startsWith("y") }
@@ -24,24 +27,23 @@ open class Day<T1, T2>(
 	}
 
 	private val fInput = File(srcPath + "input.txt")
-							 .takeIf { it.exists() } ?: throw FileNotFoundException()
+		.takeIf { it.exists() } ?: throw FileNotFoundException()
 	private val fTest1 = File(srcPath + "test.txt")
-							 .takeIf { it.exists() } ?: throw FileNotFoundException()
+		.takeIf { it.exists() } ?: throw FileNotFoundException()
 	private var fTest2 = File(srcPath + "test2.txt")
-							 .takeIf { it.exists() } ?: File(srcPath + "test.txt")
-							 .takeIf { it.exists() } ?: throw FileNotFoundException()
+		.takeIf { it.exists() } ?: File(srcPath + "test.txt")
+		.takeIf { it.exists() } ?: throw FileNotFoundException()
 
 	private val fTests = listOf(fTest1, fTest2)
 	private val testResults = listOf(testRes1, testRes2)
 	private val properResults = listOf(realRes1, realRes2)
 
 	private fun <SRC, T> part(label: String, part: Int, skipTest: Boolean, reader: File.() -> SRC, block: (SRC) -> T) {
-		if (label.isNotEmpty())
-			println("[$label]:")
+		println("[$label]:")
 		if (!skipTest) {
 			val lines = fTests[part].reader()
 			val res = measureTimedValue { block(lines) }
-			println("Test Part ${part + 1} = ${res.value}")
+			println("${openRed}Test Part ${part + 1}$closeRed = ${res.value}")
 			if (res.value != testResults[part]) {
 				println("              ERROR: ${testResults[part]} expected!")
 				exitProcess(1)
@@ -58,7 +60,7 @@ open class Day<T1, T2>(
 			}
 		}
 
-		println("     Part ${part + 1} = ${res2.value} in ${res2.duration.div(benchmarkRepetition)}$extraInfo")
+		println("${openRed}     Part ${part + 1}$closeRed = ${res2.value} in ${res2.duration.div(benchmarkRepetition)}$extraInfo")
 		properResults[part]?.let {
 			if (it != res2.value) {
 				println("              ERROR: $it expected!")
@@ -68,15 +70,19 @@ open class Day<T1, T2>(
 	}
 
 	@AdventOfCode
-	fun part1Lines(label: String = "", skipTest: Boolean = false, block: (List<String>) -> T1) = part(label, 0, skipTest, File::readLines, block)
+	fun part1Lines(label: String = "", skipTest: Boolean = false, block: (List<String>) -> T1) =
+		part(label, 0, skipTest, File::readLines, block)
 
 	@AdventOfCode
-	fun part2Lines(label: String = "", skipTest: Boolean = false, block: (List<String>) -> T2) = part(label, 1, skipTest, File::readLines, block)
+	fun part2Lines(label: String = "", skipTest: Boolean = false, block: (List<String>) -> T2) =
+		part(label, 1, skipTest, File::readLines, block)
 
 	@AdventOfCode
-	fun part1Text(label: String = "", skipTest: Boolean = false, block: (String) -> T1) = part(label, 0, skipTest, File::readText, block)
+	fun part1Text(label: String = "", skipTest: Boolean = false, block: (String) -> T1) =
+		part(label, 0, skipTest, File::readText, block)
 
 	@AdventOfCode
-	fun part2Text(label: String = "", skipTest: Boolean = false, block: (String) -> T2) = part(label, 1, skipTest, File::readText, block)
+	fun part2Text(label: String = "", skipTest: Boolean = false, block: (String) -> T2) =
+		part(label, 1, skipTest, File::readText, block)
 
 }
