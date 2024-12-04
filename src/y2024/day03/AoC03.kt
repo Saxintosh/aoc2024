@@ -8,8 +8,7 @@ fun main() {
 }
 
 
-private object AOC3: Day<Int, Int>(161, 48, 178794710, 76729637, true) {
-
+private object AOC3: Day<Int, Int>(161, 48, 178794710, 76729637) {
 	val regex = Regex("""mul\((\d+),\s*(\d+)\)""")
 	val regex2 = Regex("""mul\((\d+),\s*(\d+)\)|don't\(\)|do\(\)""")
 
@@ -18,6 +17,8 @@ private object AOC3: Day<Int, Int>(161, 48, 178794710, 76729637, true) {
 	val regex3 = Regex("""mul\((?<first>\d{1,3}),(?<second>\d{1,3})\)""")
 
 	init {
+		benchmarkRepetition = 100
+
 		part1Text("destructured") { txt ->
 			regex
 				.findAll(txt)

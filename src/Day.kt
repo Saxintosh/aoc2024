@@ -12,8 +12,8 @@ open class Day<T1, T2>(
 	testRes2: T2,
 	realRes1: T1? = null,
 	realRes2: T2? = null,
-	val benchmark: Boolean = false
 ) {
+	var benchmarkRepetition: Int = 1
 	private val srcPath: String
 
 	init {
@@ -49,18 +49,16 @@ open class Day<T1, T2>(
 		}
 		val lines2 = fInput.reader()
 		var res2 = measureTimedValue { block(lines2) }
-		var scale = 1
 		var extraInfo = ""
-		if (benchmark) {
-			scale = 10
-			extraInfo = " out of $scale"
+		if (benchmarkRepetition > 1) {
+			extraInfo = " out of $benchmarkRepetition"
 			res2 = measureTimedValue {
-				repeat(scale - 1) { block(lines2) }
+				repeat(benchmarkRepetition - 1) { block(lines2) }
 				block(lines2)
 			}
 		}
 
-		println("     Part ${part + 1} = ${res2.value} in ${res2.duration.div(scale)}$extraInfo")
+		println("     Part ${part + 1} = ${res2.value} in ${res2.duration.div(benchmarkRepetition)}$extraInfo")
 		properResults[part]?.let {
 			if (it != res2.value) {
 				println("              ERROR: $it expected!")

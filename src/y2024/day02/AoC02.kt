@@ -45,7 +45,7 @@ class ExcludingIndexList(private val list: List<Int>, var excludedIndex: Int = 0
 	override fun contains(element: Int): Boolean = TODO("Not yet implemented")
 }
 
-private object AOC2: Day<Int, Int>(2, 4, 549, 589, true) {
+private object AOC2: Day<Int, Int>(2, 4, 549, 589) {
 
 	private fun List<Int>.isSafe(): Boolean {
 		val firstTest = get(0) > get(1)
@@ -76,6 +76,8 @@ private object AOC2: Day<Int, Int>(2, 4, 549, 589, true) {
 	}
 
 	init {
+		benchmarkRepetition = 100
+
 		part1Lines("isSafe") { lines ->
 			lines
 				.map { it.split(" ").map(String::toInt) }

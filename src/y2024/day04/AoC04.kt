@@ -9,33 +9,62 @@ fun main() {
 	AOC4
 }
 
-private object AOC4 : Day<Int, Int>(18, 9, 2685, 76729637, true) {
+private object AOC4 : Day<Int, Int>(18, 9, 2685, 2048) {
 
 	init {
-		part1Lines { lines ->
+		benchmarkRepetition = 100
+		
+		part1Lines("optimized? No!") { lines ->
 			val grid = ChGrid(lines)
 			val list = grid.asPointsSequence()
 				.filter { grid[it] == 'X' }
 				.map { p1 ->
 					p1.adjacent().filter { grid[it] == 'M' }.map {
-						Triple(p1, it, Point.buildMove(p1, it))
+						it to Point.buildMove(p1, it)
 					}
 				}
 				.flatMap { it }
-				.filter {
-					val move = it.third
-					val nextp = it.second.move()
-					grid[nextp] == 'A'
+				.mapNotNull {
+					val move = it.second
+					val nextp = it.first.move()
+					if (grid[nextp] == 'A')
+						nextp to move
+					else null
 				}
-				.filter {
-					val move = it.third
-					val nextp = it.second.move().move()
-					grid[nextp] == 'S'
+				.mapNotNull {
+					val move = it.second
+					val nextp = it.first.move()
+					if (grid[nextp] == 'S')
+						nextp to move
+					else null
 				}
 				.toList()
 			list.size
 		}
 
+		part1Lines("first") { lines ->
+			val grid = ChGrid(lines)
+			val list = grid.asPointsSequence()
+				.filter { grid[it] == 'X' }
+				.map { p1 ->
+					p1.adjacent().filter { grid[it] == 'M' }.map {
+						it to Point.buildMove(p1, it)
+					}
+				}
+				.flatMap { it }
+				.filter {
+					val move = it.second
+					val nextp = it.first.move()
+					grid[nextp] == 'A'
+				}
+				.filter {
+					val move = it.second
+					val nextp = it.first.move().move()
+					grid[nextp] == 'S'
+				}
+				.toList()
+			list.size
+		}
 
 		part2Lines { lines ->
 			val grid = ChGrid(lines)
