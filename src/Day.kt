@@ -36,7 +36,7 @@ open class Day<T1, T2>(
 	private val properResults = listOf(realRes1, realRes2)
 
 	private fun <SRC, T> part(label: String, part: Int, skipTest: Boolean, reader: File.() -> SRC, block: (SRC) -> T) {
-		if(label.isNotEmpty())
+		if (label.isNotEmpty())
 			println("[$label]:")
 		if (!skipTest) {
 			val lines = fTests[part].reader()
@@ -52,13 +52,10 @@ open class Day<T1, T2>(
 		var scale = 1
 		var extraInfo = ""
 		if (benchmark) {
-			scale = 5
+			scale = 10
 			extraInfo = " out of $scale"
 			res2 = measureTimedValue {
-				block(lines2)
-				block(lines2)
-				block(lines2)
-				block(lines2)
+				repeat(scale - 1) { block(lines2) }
 				block(lines2)
 			}
 		}

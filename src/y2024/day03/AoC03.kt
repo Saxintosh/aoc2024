@@ -13,8 +13,12 @@ private object AOC3: Day<Int, Int>(161, 48, 178794710, 76729637, true) {
 	val regex = Regex("""mul\((\d+),\s*(\d+)\)""")
 	val regex2 = Regex("""mul\((\d+),\s*(\d+)\)|don't\(\)|do\(\)""")
 
+	// match.groups["first"]?.value
+	// match.groups["second"]?.value
+	val regex3 = Regex("""mul\((?<first>\d{1,3}),(?<second>\d{1,3})\)""")
+
 	init {
-		part1Text("isSafe") { txt ->
+		part1Text("destructured") { txt ->
 			regex
 				.findAll(txt)
 				.sumOf {
@@ -23,8 +27,18 @@ private object AOC3: Day<Int, Int>(161, 48, 178794710, 76729637, true) {
 				}
 		}
 
+		part1Text("groupValues") { txt ->
+			regex
+				.findAll(txt)
+				.sumOf {
+					val x = it.groupValues[1].toInt()
+					val y = it.groupValues[2].toInt()
+					x * y
+				}
+		}
 
-		part1Text("with Wrapper") { txt ->
+
+		part2Text { txt ->
 			var guard = true
 			regex2.findAll(txt).fold(0) { acc: Int, match: MatchResult ->
 				when (match.value) {
