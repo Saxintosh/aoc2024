@@ -42,7 +42,27 @@ private object AOC4 : Day<Int, Int>(18, 9, 2685, 2048) {
 			list.size
 		}
 
-		part1Lines("first") { lines ->
+		part1Lines("1 filters") { lines ->
+			val grid = ChGrid(lines)
+			val list = grid.asPointsSequence()
+				.filter { grid[it] == 'X' }
+				.map { p1 ->
+					p1.adjacent().filter { grid[it] == 'M' }.map {
+						it to Point.buildMove(p1, it)
+					}
+				}
+				.flatMap { it }
+				.filter {
+					val move = it.second
+					val nextp = it.first.move()
+					grid[nextp] == 'A' && grid[nextp.move()] == 'S'
+
+				}
+				.toList()
+			list.size
+		}
+
+		part1Lines("2 filters") { lines ->
 			val grid = ChGrid(lines)
 			val list = grid.asPointsSequence()
 				.filter { grid[it] == 'X' }
@@ -56,6 +76,7 @@ private object AOC4 : Day<Int, Int>(18, 9, 2685, 2048) {
 					val move = it.second
 					val nextp = it.first.move()
 					grid[nextp] == 'A'
+
 				}
 				.filter {
 					val move = it.second
