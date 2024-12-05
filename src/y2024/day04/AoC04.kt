@@ -13,8 +13,8 @@ private object AOC4 : Day<Int, Int>(18, 9, 2685, 2048) {
 
 	init {
 		benchmarkRepetition = 100
-		
-		part1Lines("optimized? No!") { lines ->
+
+		part1Lines("optimized with mapNotNull? No!") { lines ->
 			val grid = ChGrid(lines)
 			val list = grid.asPointsSequence()
 				.filter { grid[it] == 'X' }

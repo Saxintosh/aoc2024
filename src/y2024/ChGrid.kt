@@ -63,7 +63,7 @@ class ChGrid(src: List<String>) {
 
 	operator fun get(x: Int, y: Int) = lines.getOrNull(y)?.getOrNull(x)
 	operator fun get(p: Point) = get(p.x, p.y)
-	operator fun get(p: Pair<Int, Int>) = get(p.first, p.second)
+	operator fun get(p: Pair <Int, Int>) = get(p.first, p.second)
 
 	operator fun set(x: Int, y: Int, ch: Char) = lines[y].set(x, ch)
 	operator fun set(p: Point, ch: Char) = set(p.x, p.y, ch)

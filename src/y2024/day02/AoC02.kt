@@ -10,7 +10,7 @@ fun main() {
 
 // I thought that creating a wrapper that reused the source list would be faster. But no.
 // It is becoming more and more evident that creating many objects is not an expensive operation at all.
-class ExcludingIndexList(private val list: List<Int>, var excludedIndex: Int = 0): List<Int> {
+class ExcludingIndexList(private val list: List<Int>, var excludedIndex: Int = 0) : List<Int> {
 	init {
 		require(excludedIndex in list.indices) { "Index $excludedIndex is out of bounds for list of size ${list.size}" }
 	}
@@ -21,7 +21,7 @@ class ExcludingIndexList(private val list: List<Int>, var excludedIndex: Int = 0
 	override fun get(index: Int) = list[adjustedIndex(index)]
 	override fun isEmpty() = list.size == 1
 
-	override fun iterator(): Iterator<Int> = object: Iterator<Int> {
+	override fun iterator(): Iterator<Int> = object : Iterator<Int> {
 		private var currentIndex = 0
 
 		override fun hasNext(): Boolean {
@@ -45,7 +45,7 @@ class ExcludingIndexList(private val list: List<Int>, var excludedIndex: Int = 0
 	override fun contains(element: Int): Boolean = TODO("Not yet implemented")
 }
 
-private object AOC2: Day<Int, Int>(2, 4, 549, 589) {
+private object AOC2 : Day<Int, Int>(2, 4, 549, 589) {
 
 	private fun List<Int>.isSafe(): Boolean {
 		val firstTest = get(0) > get(1)
@@ -57,7 +57,7 @@ private object AOC2: Day<Int, Int>(2, 4, 549, 589) {
 	// it seems that zipWithNext is a little faster than windowed
 	private fun List<Int>.isSafeZip(): Boolean {
 		val firstTest = get(0) > get(1)
-		return zipWithNext().all{ (a, b) ->
+		return zipWithNext().all { (a, b) ->
 			a != b && (a > b == firstTest) && (a - b).absoluteValue <= 3
 		}
 	}
