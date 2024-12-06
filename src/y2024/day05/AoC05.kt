@@ -30,7 +30,8 @@ private object AOC5 : Day<Int, Int>(143, 123, 4185, 2048) {
 
         part1Text { txt ->
             val (rules, updates) = parse(txt)
-            updates.filter { it.isOrdered(rules) }
+            updates
+                .filter { it.isOrdered(rules) }
                 .sumOf {
                     it[it.size / 2].toInt()
                 }
@@ -42,10 +43,10 @@ private object AOC5 : Day<Int, Int>(143, 123, 4185, 2048) {
             updates
                 .filter { !it.isOrdered(rules) }
                 .map {
-                it.sortedWith { o1, o2 -> if (o1 to o2 in rules) 1 else -1 }
-            }.sumOf {
-                it[it.size / 2].toInt()
-            }
+                    it.sortedWith { o1, o2 -> if (o1 to o2 in rules) 1 else -1 }
+                }.sumOf {
+                    it[it.size / 2].toInt()
+                }
         }
     }
 }

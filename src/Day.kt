@@ -17,7 +17,9 @@ open class Day<T1, T2>(
 	private val srcPath: String
 
 	private val openRed = "\u001B[31m"
-	private val closeRed = "\u001B[0m"
+	private val openGreen = "\u001B[32m"
+	private val openYellow = "\u001B[33m"
+	private val normalColor = "\u001B[0m"
 
 	init {
 		val e = Exception()
@@ -43,9 +45,9 @@ open class Day<T1, T2>(
 		if (!skipTest) {
 			val lines = fTests[part].reader()
 			val res = measureTimedValue { block(lines) }
-			println("${openRed}Test Part ${part + 1}$closeRed = ${res.value}")
+			println("${openGreen}Test Part ${part + 1}$normalColor = ${res.value}")
 			if (res.value != testResults[part]) {
-				println("              ERROR: ${testResults[part]} expected!")
+				println("$openRed              ERROR:$normalColor ${testResults[part]} expected!")
 				exitProcess(1)
 			}
 		}
@@ -60,10 +62,10 @@ open class Day<T1, T2>(
 			}
 		}
 
-		println("${openRed}     Part ${part + 1}$closeRed = ${res2.value} in ${res2.duration.div(benchmarkRepetition)}$extraInfo")
+		println("${openGreen}     Part ${part + 1}$normalColor = ${res2.value} in ${res2.duration.div(benchmarkRepetition)}$extraInfo")
 		properResults[part]?.let {
 			if (it != res2.value) {
-				println("              ERROR: $it expected!")
+				println("$openRed              ERROR:$normalColor $it expected!")
 				exitProcess(1)
 			}
 		}

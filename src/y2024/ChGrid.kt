@@ -1,4 +1,12 @@
 package y2024
+
+enum class Direction(private val degree: Int) {
+	Up(0), Right(90), Down(180), Left(270), UpRight(45), DownRight(135), DownLeft(225), UpLeft(315);
+
+	fun turnRight() = entries.find { it.degree == (degree + 90) % 360 }!!
+	fun turnLeft() = entries.find { it.degree == (degree - 90) % 360 }!!
+}
+
 data class Point(val x: Int, val y: Int) {
 	fun up() = Point(x, y - 1)
 	fun down() = Point(x, y + 1)
@@ -28,6 +36,18 @@ data class Point(val x: Int, val y: Int) {
 			return ::move
 		}
 	}
+
+	fun go(dir: Direction) = when (dir) {
+		Direction.Up -> up()
+		Direction.Right -> right()
+		Direction.Down -> down()
+		Direction.Left -> left()
+		Direction.UpRight -> upRight()
+		Direction.DownRight -> downRight()
+		Direction.DownLeft -> downLeft()
+		Direction.UpLeft -> upLeft()
+	}
+
 }
 
 data class LPoint(val x: Long, val y: Long) {
@@ -50,6 +70,20 @@ data class LPoint(val x: Long, val y: Long) {
 		add(downLeft())
 		add(downRight())
 	}
+
+	fun move(dir: Direction) {
+		when (dir) {
+			Direction.Up -> up()
+			Direction.Right -> right()
+			Direction.Down -> down()
+			Direction.Left -> left()
+			Direction.UpRight -> upRight()
+			Direction.DownRight -> downRight()
+			Direction.DownLeft -> downLeft()
+			Direction.UpLeft -> upLeft()
+		}
+	}
+
 }
 
 data class HRange(val y: Int, val range: IntRange)
@@ -63,7 +97,7 @@ class ChGrid(src: List<String>) {
 
 	operator fun get(x: Int, y: Int) = lines.getOrNull(y)?.getOrNull(x)
 	operator fun get(p: Point) = get(p.x, p.y)
-	operator fun get(p: Pair <Int, Int>) = get(p.first, p.second)
+	operator fun get(p: Pair<Int, Int>) = get(p.first, p.second)
 
 	operator fun set(x: Int, y: Int, ch: Char) = lines[y].set(x, ch)
 	operator fun set(p: Point, ch: Char) = set(p.x, p.y, ch)
@@ -81,4 +115,7 @@ class ChGrid(src: List<String>) {
 	fun isInRange(p: Point) = p.x in xRange && p.y in yRange
 
 	fun deepHashCode() = lines.fold(1) { acc, array -> (31 * acc) + array.contentHashCode() }
+	override fun toString() = buildString {
+		lines.forEach { appendLine(it) }
+	}
 }
