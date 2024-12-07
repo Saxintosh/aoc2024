@@ -1,9 +1,7 @@
 package y2024.day07
 
 import Day
-import y2024.*
 import kotlin.math.pow
-
 
 fun main() {
     AOC7
@@ -32,12 +30,16 @@ private fun <T> indexToCombination(index: Int, elements: List<T>, n: Int): List<
 private fun <T> List<T>.cartesianProduct(n: Int): Sequence<List<T>> = sequence {
     val count = size.toDouble().pow(n).toInt()
     for (i in 0 until count) {
-        yield(indexToCombination(i,this@cartesianProduct, n))
+        yield(indexToCombination(i, this@cartesianProduct, n))
     }
 }
+
+// or...
+
+
 private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384118L) {
 
-    fun concat(l1:Long, l2:Long): Long = (l1.toString() + l2.toString()).toLong()
+    fun concat(l1: Long, l2: Long): Long = (l1.toString() + l2.toString()).toLong()
     val ops = listOf<Long.(Long) -> Long>(Long::plus, Long::times)
     val opsExtended = listOf<Long.(Long) -> Long>(Long::plus, Long::times, ::concat)
 
@@ -52,6 +54,22 @@ private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384
             return operations.any { process(it) == res }
         }
 
+        private fun isPossibleRec(p1: Long, ll: List<Long>, oo: List<Long.(Long) -> Long>): Boolean {
+            if (p1 > res)
+                return false
+
+            if (ll.isEmpty())
+                return res == p1
+
+            return oo.any {
+                val r = it(p1, ll[0])
+                isPossibleRec(r, ll.drop(1), oo)
+            }
+        }
+
+        fun isPossibleRec(oo: List<Long.(Long) -> Long>) = isPossibleRec(values.first(), values.drop(1), oo)
+
+
         companion object {
             fun parse(s: String): Test {
                 val (r, l) = s.split(": ")
@@ -62,10 +80,17 @@ private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384
     }
 
     init {
-        part1Lines { lines ->
+        part1Lines("indices") { lines ->
             lines
                 .map { Test.parse(it) }
                 .filter { it.isPossible(ops) }
+                .sumOf { it.res }
+        }
+
+        part1Lines("recursive") { lines ->
+            lines
+                .map { Test.parse(it) }
+                .filter { it.isPossibleRec(ops) }
                 .sumOf { it.res }
         }
 
@@ -75,5 +100,13 @@ private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384
                 .filter { it.isPossible(opsExtended) }
                 .sumOf { it.res }
         }
+
+        part2Lines("recursive") { lines ->
+            lines
+                .map { Test.parse(it) }
+                .filter { it.isPossibleRec(opsExtended) }
+                .sumOf { it.res }
+        }
+
     }
 }
