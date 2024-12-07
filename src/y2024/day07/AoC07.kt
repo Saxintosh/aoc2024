@@ -2,12 +2,39 @@ package y2024.day07
 
 import Day
 import y2024.*
+import kotlin.math.pow
 
 
 fun main() {
     AOC7
 }
 
+/**
+ * converts an index of the possible cartesian products
+ * to the list itself.
+ *
+ * The idea is to treat the combination as a number in a “base” system where each element is a “digit”.
+ * We treat the index as a number and break it down using division and modulus to select the corresponding elements from the list.
+ */
+private fun <T> indexToCombination(index: Int, elements: List<T>, n: Int): List<T> {
+    val indices = IntArray(n)
+    var tempIndex = index
+
+    for (i in 0 until n) {
+        val elementIndex = tempIndex % elements.size
+        indices[n - 1 - i] = elementIndex
+        tempIndex /= elements.size
+    }
+
+    return indices.map { elements[it] }
+}
+
+private fun <T> List<T>.cartesianProduct(n: Int): Sequence<List<T>> = sequence {
+    val count = size.toDouble().pow(n).toInt()
+    for (i in 0 until count) {
+        yield(indexToCombination(i,this@cartesianProduct, n))
+    }
+}
 private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384118L) {
 
     fun concat(l1:Long, l2:Long): Long = (l1.toString() + l2.toString()).toLong()
