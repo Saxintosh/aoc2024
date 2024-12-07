@@ -39,7 +39,7 @@ private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384
 
     fun concat(l1:Long, l2:Long): Long = (l1.toString() + l2.toString()).toLong()
     val ops = listOf<Long.(Long) -> Long>(Long::plus, Long::times)
-    val ops2 = listOf<Long.(Long) -> Long>(Long::plus, Long::times, ::concat)
+    val opsExtended = listOf<Long.(Long) -> Long>(Long::plus, Long::times, ::concat)
 
     data class Test(val res: Long, val values: List<Long>) {
 
@@ -47,13 +47,8 @@ private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384
             o[i](acc, e)
         }
 
-        fun isPossible(): Boolean {
-            val operations: Sequence<List<Long.(Long) -> Long>> = ops.cartesianProduct(values.size - 1)
-            return operations.any { process(it) == res }
-        }
-
-        fun isPossible2(): Boolean {
-            val operations: Sequence<List<Long.(Long) -> Long>> = ops2.cartesianProduct(values.size - 1)
+        fun isPossible(opList: List<Long.(Long) -> Long>): Boolean {
+            val operations: Sequence<List<Long.(Long) -> Long>> = opList.cartesianProduct(values.size - 1)
             return operations.any { process(it) == res }
         }
 
@@ -70,14 +65,14 @@ private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384
         part1Lines { lines ->
             lines
                 .map { Test.parse(it) }
-                .filter { it.isPossible() }
+                .filter { it.isPossible(ops) }
                 .sumOf { it.res }
         }
 
         part2Lines { lines ->
             lines
                 .map { Test.parse(it) }
-                .filter { it.isPossible2() }
+                .filter { it.isPossible(opsExtended) }
                 .sumOf { it.res }
         }
     }
