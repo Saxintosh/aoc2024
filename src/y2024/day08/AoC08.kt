@@ -40,6 +40,9 @@ private object AOC8 : Day<Int, Int>(14, 34, 364, 1231) {
     }
 
     init {
+
+        benchmarkRepetition = 100
+        
         part1Lines { lines ->
             val grid = ChGrid(lines)
             val antennas = grid.asPointsSequenceAndValue()
