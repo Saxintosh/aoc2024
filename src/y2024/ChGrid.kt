@@ -7,6 +7,13 @@ enum class Direction(private val degree: Int) {
 	fun turnLeft() = entries.find { it.degree == (degree - 90) % 360 }!!
 }
 
+data class Vector(val dx: Int, val dy: Int) {
+
+	companion object {
+		fun from(p1: Point, p2: Point) = Vector(p2.x - p1.x, p2.y - p1.y)
+	}
+}
+
 data class Point(val x: Int, val y: Int) {
 	fun up() = Point(x, y - 1)
 	fun down() = Point(x, y + 1)
@@ -27,6 +34,9 @@ data class Point(val x: Int, val y: Int) {
 		add(downLeft())
 		add(downRight())
 	}
+
+	operator fun plus(v: Vector) = Point(x + v.dx, y + v.dy)
+	operator fun minus(v: Vector) = Point(x - v.dx, y - v.dy)
 
 	companion object {
 		fun buildMove(from: Point, to: Point): Point.() -> Point {
@@ -112,7 +122,15 @@ class ChGrid(src: List<String>) {
 		}
 	}
 
-	fun isInRange(p: Point) = p.x in xRange && p.y in yRange
+	fun asPointsSequenceAndValue() = sequence {
+		yRange.forEach { y ->
+			xRange.forEach { x ->
+				yield(Point(x, y) to get(x, y))
+			}
+		}
+	}
+
+	operator fun contains(p: Point)= p.x in xRange && p.y in yRange
 
 	fun deepHashCode() = lines.fold(1) { acc, array -> (31 * acc) + array.contentHashCode() }
 	override fun toString() = buildString {

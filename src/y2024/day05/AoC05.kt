@@ -1,7 +1,7 @@
 package y2024.day05
 
 import Day
-import y2024.getOrderedPairs
+import y2024.allDistinctPairs
 
 
 fun main() {
@@ -21,7 +21,7 @@ private object AOC5 : Day<Int, Int>(143, 123, 4185, 2048) {
     }
 
     fun List<String>.isOrdered(rules: Set<Pair<String, String>>): Boolean {
-        val pairs = this.getOrderedPairs()
+        val pairs = this.allDistinctPairs()
         return pairs.all { it in rules }
     }
 

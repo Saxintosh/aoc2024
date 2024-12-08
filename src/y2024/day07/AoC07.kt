@@ -80,6 +80,7 @@ private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384
     }
 
     init {
+
         part1Lines("indices") { lines ->
             lines
                 .map { Test.parse(it) }
@@ -94,12 +95,12 @@ private object AOC7 : Day<Long, Long>(3749L, 11387L, 1153997401072L, 97902809384
                 .sumOf { it.res }
         }
 
-        part2Lines { lines ->
-            lines
-                .map { Test.parse(it) }
-                .filter { it.isPossible(opsExtended) }
-                .sumOf { it.res }
-        }
+//        part2Lines { lines ->
+//            lines
+//                .map { Test.parse(it) }
+//                .filter { it.isPossible(opsExtended) }
+//                .sumOf { it.res }
+//        }
 
         part2Lines("recursive") { lines ->
             lines
