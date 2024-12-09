@@ -10,7 +10,7 @@ fun main() {
 
 // I thought that creating a wrapper that reused the source list would be faster. But no.
 // It is becoming more and more evident that creating many objects is not an expensive operation at all.
-class ExcludingIndexList(private val list: List<Int>, var excludedIndex: Int = 0) : List<Int> {
+class ExcludingIndexList(private val list: List<Int>, private var excludedIndex: Int = 0) : List<Int> {
 	init {
 		require(excludedIndex in list.indices) { "Index $excludedIndex is out of bounds for list of size ${list.size}" }
 	}

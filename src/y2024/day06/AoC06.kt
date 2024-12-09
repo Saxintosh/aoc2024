@@ -4,7 +4,6 @@ import Day
 import y2024.ChGrid
 import y2024.Direction
 import y2024.Point
-import y2024.allDistinctPairs
 
 
 fun main() {
