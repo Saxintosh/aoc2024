@@ -35,6 +35,13 @@ data class Point(val x: Int, val y: Int) {
 		add(downRight())
 	}
 
+	fun crossAdjacent() = buildList {
+		add(up())
+		add(down())
+		add(left())
+		add(right())
+	}
+
 	operator fun plus(v: Vector) = Point(x + v.dx, y + v.dy)
 	operator fun minus(v: Vector) = Point(x - v.dx, y - v.dy)
 
@@ -79,6 +86,13 @@ data class LPoint(val x: Long, val y: Long) {
 		add(upRight())
 		add(downLeft())
 		add(downRight())
+	}
+
+	fun crossAdjacent() = buildList {
+		add(up())
+		add(down())
+		add(left())
+		add(right())
 	}
 
 	fun move(dir: Direction) {
@@ -130,7 +144,7 @@ class ChGrid(src: List<String>) {
 		}
 	}
 
-	operator fun contains(p: Point)= p.x in xRange && p.y in yRange
+	operator fun contains(p: Point) = p.x in xRange && p.y in yRange
 
 	fun deepHashCode() = lines.fold(1) { acc, array -> (31 * acc) + array.contentHashCode() }
 	override fun toString() = buildString {
