@@ -19,15 +19,14 @@ fun <T> List<T>.allDistinctPairs(): List<Pair<T, T>> {
 //    }
 //}
 
-fun findPathsFromPoint(
-    grid: ChGrid,
-    startPoint: Point,
-    isEndCondition: (Point) -> Boolean,
-    getNextSteps: (Point) -> List<Point>
-): List<List<Point>> {
-    val allPaths = mutableListOf<List<Point>>()
+fun <P> findPathsFrom(
+    startPoint: P,
+    isEndCondition: (P) -> Boolean,
+    getNextSteps: (P) -> List<P>
+): List<List<P>> {
+    val allPaths = mutableListOf<List<P>>()
 
-    fun backtrack(current: Point, path: List<Point>) {
+    fun backtrack(current: P, path: List<P>) {
         val newPath = path + current
 
         if (isEndCondition(current)) {
@@ -38,7 +37,6 @@ fun findPathsFromPoint(
                     backtrack(next, newPath)
             }
         }
-
     }
 
     backtrack(startPoint, mutableListOf())
