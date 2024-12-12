@@ -44,7 +44,7 @@ private object AOC8 : Day<Int, Int>(14, 34, 364, 1231) {
             val grid = ChGrid(lines)
             grid.asPointsSequenceAndValue()
                 .filter { it.second != '.' }
-                .groupBy(keySelector = { it.second!! }, valueTransform = { it.first })
+                .groupBy(keySelector = { it.second }, valueTransform = { it.first })
                 .flatMap { (_, l) ->
                     l.allDistinctPairs().flatMap { pair ->
                         findAntinodes1(grid, pair)
@@ -59,7 +59,7 @@ private object AOC8 : Day<Int, Int>(14, 34, 364, 1231) {
             val grid = ChGrid(lines)
             grid.asPointsSequenceAndValue()
                 .filter { it.second != '.' }
-                .groupBy(keySelector = { it.second!! }, valueTransform = { it.first })
+                .groupBy(keySelector = { it.second }, valueTransform = { it.first })
                 .flatMap { (_, l) ->
                     l.allDistinctPairs().flatMap { pair ->
                         findAntinodes2(grid, pair)

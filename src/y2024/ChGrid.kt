@@ -55,14 +55,14 @@ data class Point(val x: Int, val y: Int) {
 	}
 
 	fun go(dir: Direction) = when (dir) {
-		Direction.Up -> up()
-		Direction.Right -> right()
-		Direction.Down -> down()
-		Direction.Left -> left()
-		Direction.UpRight -> upRight()
+		Direction.Up        -> up()
+		Direction.Right     -> right()
+		Direction.Down      -> down()
+		Direction.Left      -> left()
+		Direction.UpRight   -> upRight()
 		Direction.DownRight -> downRight()
-		Direction.DownLeft -> downLeft()
-		Direction.UpLeft -> upLeft()
+		Direction.DownLeft  -> downLeft()
+		Direction.UpLeft    -> upLeft()
 	}
 
 }
@@ -97,14 +97,14 @@ data class LPoint(val x: Long, val y: Long) {
 
 	fun move(dir: Direction) {
 		when (dir) {
-			Direction.Up -> up()
-			Direction.Right -> right()
-			Direction.Down -> down()
-			Direction.Left -> left()
-			Direction.UpRight -> upRight()
+			Direction.Up        -> up()
+			Direction.Right     -> right()
+			Direction.Down      -> down()
+			Direction.Left      -> left()
+			Direction.UpRight   -> upRight()
 			Direction.DownRight -> downRight()
-			Direction.DownLeft -> downLeft()
-			Direction.UpLeft -> upLeft()
+			Direction.DownLeft  -> downLeft()
+			Direction.UpLeft    -> upLeft()
 		}
 	}
 
@@ -128,6 +128,14 @@ class ChGrid(src: List<String>) {
 
 	fun extract(r: HRange) = getLine(r.y).substring(r.range)
 
+	fun extract(points: List<Point>) = buildList {
+		points.forEach {
+			val ch = this@ChGrid[it]
+			if (ch != null)
+				add(it to ch)
+		}
+	}
+
 	fun asPointsSequence() = sequence {
 		yRange.forEach { y ->
 			xRange.forEach { x ->
@@ -139,7 +147,7 @@ class ChGrid(src: List<String>) {
 	fun asPointsSequenceAndValue() = sequence {
 		yRange.forEach { y ->
 			xRange.forEach { x ->
-				yield(Point(x, y) to get(x, y))
+				yield(Point(x, y) to get(x, y)!!)
 			}
 		}
 	}
