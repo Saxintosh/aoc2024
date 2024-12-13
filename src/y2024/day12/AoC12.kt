@@ -102,23 +102,6 @@ private object AOC12: Day<Long, Long>(140, 80, 1451030, 859494) {
 
 	init {
 
-		val t = """
-			AAAAAA
-			AAABBA
-			AAABBA
-			ABBAAA
-			ABBAAA
-			AAAAAA
-		""".trimIndent()
-
-		val g = ChGrid(t.lines())
-		val r = process(g)
-		val s = r.sumOf {
-			println("${it.ch}: ${it.area()} * ${it.perimeter2()}")
-			it.area() * it.perimeter2().toLong()
-		}
-		println("s: $s")
-
 		part1Lines { lines ->
 			val grid = ChGrid(lines)
 			val regions = process(grid)
