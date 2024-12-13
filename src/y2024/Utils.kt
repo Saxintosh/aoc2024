@@ -1,6 +1,7 @@
 package y2024
 
 import java.lang.Math.pow
+import kotlin.math.abs
 import kotlin.math.pow
 
 fun <T> List<T>.allDistinctPairs(): List<Pair<T, T>> {
@@ -42,4 +43,27 @@ fun <P> findPathsFrom(
     backtrack(startPoint, mutableListOf())
 
     return allPaths
+}
+
+
+tailrec fun gcd(a: Long, b: Long): Long {
+	return if (b == 0L) a else gcd(b, a % b)
+}
+
+fun lcm(a: Long, b: Long): Long {
+	return if (a == 0L || b == 0L) 0L else abs(a * b) / gcd(a, b)
+}
+
+fun findLCM(numbers: List<Long>): Long {
+	if (numbers.isEmpty()) {
+		throw IllegalArgumentException("List cannot be empty")
+	}
+
+	var result = numbers[0]
+
+	for (i in 1 until numbers.size) {
+		result = lcm(result, numbers[i])
+	}
+
+	return result
 }
