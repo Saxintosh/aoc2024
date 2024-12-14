@@ -4,6 +4,11 @@ import java.lang.Math.pow
 import kotlin.math.abs
 import kotlin.math.pow
 
+fun myRange(a: Int, b: Int) = when (a < b) {
+	true -> a..b
+	else -> b..a
+}
+
 fun <T> List<T>.allDistinctPairs(): List<Pair<T, T>> {
     val pairs = arrayListOf<Pair<T, T>>()
     for (i in this.indices) {

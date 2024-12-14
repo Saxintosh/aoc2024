@@ -14,6 +14,8 @@ open class Day<T1, T2>(
 	realRes2: T2? = null,
 ) {
 	var benchmarkRepetition: Int = 1
+	var isTest = false
+	private set
 	private val srcPath: String
 
 	private val openRed = "\u001B[31m"
@@ -44,6 +46,7 @@ open class Day<T1, T2>(
 		println("[$label]:")
 		if (!skipTest) {
 			val lines = fTests[part].reader()
+			isTest = true
 			val res = measureTimedValue { block(lines) }
 			println("${openGreen}Test Part ${part + 1}$normalColor = ${res.value}")
 			if (res.value != testResults[part]) {
@@ -52,6 +55,7 @@ open class Day<T1, T2>(
 			}
 		}
 		val lines2 = fInput.reader()
+		isTest = false
 		var res2 = measureTimedValue { block(lines2) }
 		var extraInfo = ""
 		if (benchmarkRepetition > 1) {
@@ -62,7 +66,7 @@ open class Day<T1, T2>(
 			}
 		}
 
-		println("${openGreen}     Part ${part + 1}$normalColor = ${res2.value} in ${res2.duration.div(benchmarkRepetition)}$extraInfo")
+		println("$openGreen     Part ${part + 1}$normalColor = ${res2.value} in ${res2.duration.div(benchmarkRepetition)}$extraInfo")
 		properResults[part]?.let {
 			if (it != res2.value) {
 				println("$openRed              ERROR:$normalColor $it expected!")
